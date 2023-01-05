@@ -6,7 +6,6 @@
     <title>POLKA PIWO</title>
     <link href="style/style.css" rel="stylesheet" 　type="text/css">
     <link rel="icon" type="image/vnd.microsoft.icon" href="src/favicon.ico">
-
 </head>
 <?php
 include('header.in.php')

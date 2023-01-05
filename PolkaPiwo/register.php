@@ -66,6 +66,7 @@ include('nav.in.php')
 <form  onsubmit ="return pass()">
     <table border="0" cellspacing="0" cellpadding="2">
         <tbody>
+        <h2>Persönliche Angaben</h2>
         <tr>
             <td>Anrede:</td>
             <td>
@@ -76,48 +77,80 @@ include('nav.in.php')
         <tr>
             <td>Vorname:</td>
             <td>
-                <input maxlength="50" name="Vorname" size="45" type="text" id="name1" placeholder="Max" />
+                <input maxlength="50" name="vorname" size="45" type="text" id="name1" placeholder="Max" />
                 <span id = "msgvn" style="color:red"> </span>
             </td>
         </tr>
         <tr>
             <td>Nachname:</td>
             <td>
-                <input name="Nachname" size="45" type="text" id="name2" placeholder="Mustermann" />
+                <input name="nachname" size="45" type="text" id="name2" placeholder="Mustermann" />
                 <span id = "msgnn" style="color:red"> </span>
             </td>
         </tr>
         <tr>
             <td>Email:</td>
             <td>
-                <input type="email" name="Email" id="email"placeholder="max.mustermann@gmx.de" size="45" >
+                <input type="email" name="email" id="email"placeholder="max.mustermann@gmx.de" size="45" >
             </td>
         </tr>
         <tr>
-            <td>Geburtsdatum:</td>
+            <td>Alter:</td>
             <td>
-                <input name="Betreff" size="45" type="date" placeholder="Online Marketing" />
+                <input name="alter" size="45" type="number" placeholder="18" />
             </td>
         </tr>
         <tr>
             <td>Passwort:</td>
             <td>
-                <input name="Betreff" size="45" type="password" id="pw1" placeholder="*********" />
+                <input name="pass" size="45" type="password" id="pw1" placeholder="*********" />
                 <span id = "msg1" style="color:red"> </span>
             </td>
         </tr>
         <tr>
             <td>Passwort wiederholen:</td>
             <td>
-                <input name="Betreff" size="45" type="password" id="pw2" placeholder="*********" />
+                <input name="pass2" size="45" type="password" id="pw2" placeholder="*********" />
                 <span id = "msg2" style="color:red"> </span>
+            </td>
+        </tr>
+        <td><h2> Wohnort</h2></td>
+        <tr>
+            <td>Land:</td>
+            <td>
+                <input name="land" size="45" type="text" id="land" placeholder="Germanien" />
+
+            </td>
+        </tr>
+        <tr>
+            <td>Postleitzahl:</td>
+            <td>
+                <input name="plz" size="45" type="number" id="plz" placeholder="44653" />
+            </td>
+        </tr>
+        <tr>
+            <td>Ort:</td>
+            <td>
+                <input name="ort" size="45" type="text" id="ort" placeholder="Herne" />
+            </td>
+        </tr>
+        <tr>
+            <td>Straße:</td>
+            <td>
+                <input name="straße" size="45" type="text" id="straße" placeholder="Promilleweg" />
+            </td>
+        </tr>
+        <tr>
+            <td>Hausnummer:</td>
+            <td>
+                <input name="hausnummer" size="45" type="text" id="hausnummer" placeholder="69" />
             </td>
         </tr>
         <tr>
             <td></td>
             <td>
-                <input type="submit" value="Abschicken" />
-                <input type="reset" value="Zurücksetzen" />
+                <input type="submit" name="abschicken" value="Abschicken" />
+                <input type="reset" name="zurücksetzen" value="Zurücksetzen" />
             </td>
         </tr>
         </tbody>
