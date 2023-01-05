@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>POLKA PIWO</title>
-    <link href="../PolkaBeer1/src/style.css" rel="stylesheet" 　type="text/css">
+    <link href="style/style.css" rel="stylesheet" type="text/css">
     <link rel="icon" type="image/vnd.microsoft.icon" href="src/favicon.ico">
 </head>
-
+<body>
 <header class="masthead" style="background-image: url('src/img/blond.jpeg')">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
