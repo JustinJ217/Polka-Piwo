@@ -47,7 +47,7 @@ include('nav.in.php')
         </tbody>
     </table>
 </form>
-<p>Falls Sie noch kein Konto haben, klicken Sie <a href="registertest.php.php">hier</a></p>
+<p>Falls Sie noch kein Konto haben, klicken Sie <a href="registertest.php">hier</a></p>
 <?php
 include('footer.in.php')
 ?>

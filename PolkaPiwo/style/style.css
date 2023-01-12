@@ -2686,10 +2686,7 @@ textarea.form-control-lg {
 .form-floating > .form-control::placeholder {
     color: transparent;
 }
-.form-floating > .form-control:not(:-moz-placeholder-shown) {
-    padding-top: 2.125rem;
-    padding-bottom: 0.625rem;
-}
+
 .form-floating > .form-control:not(:-ms-input-placeholder) {
     padding-top: 2.125rem;
     padding-bottom: 0.625rem;
@@ -2706,10 +2703,7 @@ textarea.form-control-lg {
     padding-top: 2.125rem;
     padding-bottom: 0.625rem;
 }
-.form-floating > .form-control:not(:-moz-placeholder-shown) ~ label {
-    opacity: 0.65;
-    transform: scale(0.65) translateY(-0.5rem) translateX(0rem);
-}
+
 .form-floating > .form-control:not(:-ms-input-placeholder) ~ label {
     opacity: 0.65;
     transform: scale(0.65) translateY(-0.5rem) translateX(0rem);
@@ -4057,10 +4051,7 @@ textarea.form-control-lg {
     background-size: 100%;
 }
 
-.navbar-nav-scroll {
-    max-height: var(--bs-scroll-height, 75vh);
-    overflow-y: auto;
-}
+
 
 @media (min-width: 576px) {
     .navbar-expand-sm {

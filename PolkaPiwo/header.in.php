@@ -4,7 +4,7 @@
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="site-heading">
                     <h1 text-align="center">POLKA PIWO</h1>
-                    <span text-align="center" class="subheading">Die Kühle Blondiene</span>
+                    <span text-align="center" class="subheading">Die kühle Blondine</span>
                 </div>
             </div>
         </div>
