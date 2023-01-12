@@ -17,25 +17,37 @@
     </div>
 </header>
 <?php
-include('nav.in.php')
+include('../nav.in.php')
 ?>
-<div style = "position:relative; left:100px; bottom:150px"><img src="../src/img/kasten1.png" width="700" height="800">
+<div style = "position:relative; left:100px; bottom:150px"><img src="../src/img/kasten.png" width="700" height="800">
     <div style = "position:relative; left:800px; bottom:600px">
         <h1>Preis: 30€</h1>
     </div>
     <div style = "position:relative; left:800px; bottom:600px">
         <h3>Beschreibung:</h3>
         <span class="subheading">Ein erfrischender Kasten Bier gefüllt mit 24 gekühlten Flaschen!</span> <br>
-        <span class="subheading">Alkoholgehalt: 9,6 % vol.</span> <br>
+        <!--<span class="subheading">Alkoholgehalt: 9,6 % vol.</span> <br> -->
         <span class="subheading">Inhalt pro Flasche: 0,5l</span> <br>
         <span class="subheading">Zutaten: Wasser, Gerstenmalz, Hopfen, Hopfenextrakt</span> <br>
     </div>
 </div>
 <div style = "position:relative; left:50px; bottom:400px;">
     <h1>REZENSIONEN</h1>
+    <button id="rez">Rezension Verfassen</button>
+    <div>
+        <span id="outputRez"></span>
+    </div>
 </div>
+
+<script>
+        document.getElementById("rez").onclick = function(){
+        var rez = prompt("Was ist ihre meinung zum Produkt?");
+        document.getElementById("outputRez").innerText = rez;
+    }
+</script>
+
 <?php
-include('footer.in.php')
+include('../footer.in.php')
 ?>
 </body>
 </html>

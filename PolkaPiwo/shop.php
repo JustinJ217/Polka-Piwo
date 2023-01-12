@@ -24,7 +24,7 @@
 include('nav.in.php')
 ?>
 <div>
-    <a style = "position:relative; left:400px;" class="navbar-brand" href="produkte/bier.php"><img src="src/img/kasten1.png" width="140" height="160">
+    <a style = "position:relative; left:400px;" class="navbar-brand" href="produkte/bier.php"><img src="src/img/kasten.png" width="140" height="160">
     <h3>Bier Kasten</h3>
     <a style = "position:relative; left:800px; bottom:200px" class="navbar-brand" href="produkte/merch.php"><img src="src/img/Merch.png" width="140" height="160">
     <h3>Merchandise</h3>
