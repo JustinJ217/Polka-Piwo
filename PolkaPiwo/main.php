@@ -16,7 +16,6 @@ session_start();
     if(isset($_SESSION['user'])){
         require_once('ui.php');
     }
-
 ?>
 
 <?php

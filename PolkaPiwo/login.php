@@ -17,7 +17,7 @@ include_once __DIR__ . '/config.php';
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="site-heading">
                     <h1>Login</h1>
-                    <span class="subheading">Geben Sie Ihre Daten ein. </span>
+                    <span class="subheading">Geben Sie, Ihre Daten ein. </span>
                 </div>
             </div>
         </div>

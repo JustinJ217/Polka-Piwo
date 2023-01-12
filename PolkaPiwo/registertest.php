@@ -91,7 +91,7 @@ if(isset($_POST["abschicken"])):
     }
    /* if(check_pass($pass,"")) {
         $formErrors['pass'] = "Das Passwort muss zwischen 8 und 15 Zeichen lang sein! <br>
-                       Darin enthalten müssen mindestens 4 Zahlen, 2 kleine Buchstaben und 2 große Buchstaben  ";
+                       Darinenthalten müssen mindestens 4 Zahlen, 2 kleine Buchstaben und 2 große Buchstaben  ";
     }*/
     if($pass != $pass2) {
         $formErrors['pass'] = "Die Passwörter stimmen nicht überein!";
