@@ -5,7 +5,7 @@
                 Menu
                 <i class="fas fa-bars"></i>
             </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
+
             <ul class="navbar-nav ms-auto py-4 py-lg-0">
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#"></a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="main.php">Startseite</a></li>

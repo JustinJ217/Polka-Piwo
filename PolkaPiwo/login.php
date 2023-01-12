@@ -1,3 +1,52 @@
+<?php
+
+//DB verbindung erstellt
+$db = new mysqli('localhost','root','','polkapiwo','3307');
+
+//Prüft die DB verbindung
+if($db->connect_error):
+    echo $db->connect_error;
+endif;
+
+if (isset($_POST['login'])) {
+
+
+
+    if ($_POST['username'] === 'itc' && $_POST['password'] === 'secret') {
+        $email = $_POST['email'];
+        $pass = $_POST['pass'];
+        $pass = md5($pass);
+
+        $search_user = $db->prepare("Select id FROM kunden where email = ? and password = ?");
+        $search_user->bind_param('ss',$email,$pass);
+        $search_user->execute();
+        $search_result = $search_user->get_result();
+
+        if($search_result->num_rows == 1){
+
+        }
+
+        $_SESSION['auth'] = [
+
+            'loggedIn' => true,
+
+            'lastActivity' => time(),
+
+            'loggedInUser' => 'itc'
+
+        ];
+
+
+
+        header('Location: 05_Login_success.php');
+
+        exit();
+
+    }
+
+}
+
+?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -23,25 +72,25 @@
 <?php
 include('nav.in.php')
 ?>
-<form action="https://www.youtube.com/watch?v=xvFZjo5PgG0" method="post">
+<form action="" method="post">
     <table border="0" cellspacing="0" cellpadding="2">
         <tbody>
         <tr>
             <td>Email:</td>
             <td>
-                <input type="email" name="Email" id="email"placeholder="max.mustermann@gmx.de" size="45"  required>
+                <input type="email" name="email" id="email"placeholder="max.mustermann@gmx.de" size="45" value="<?=$email?> >
             </td>
         </tr>
         <tr>
             <td>Passwort:</td>
             <td>
-                <input name="Betreff" size="45" type="password" placeholder="*********" />
+                <input name="pass" size="45" type="password" placeholder="*********" value="/>
             </td>
         </tr>
         <tr>
             <td>
-                <input type="submit" value="Login" />
-                <input type="reset" value="Zurücksetzen" />
+                <input type="submit" name="login" value="Login" />
+                <input type="reset" name="reset" value="Zurücksetzen" />
             </td>
         </tr>
         </tbody>
