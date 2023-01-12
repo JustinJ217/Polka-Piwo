@@ -1,3 +1,149 @@
+<?php
+function check_pass($password,$empty): bool
+{
+    return true;
+
+    $empty=array();
+    $i=preg_match_all('/[0-9]/',$password,$empty);      // 4 Zahlen vorhanden ?
+    if($i<4)return false;
+
+    $i=preg_match_all('/[a-z]/',$password,$empty);      // 2 kleine Buchstaben vorhanden?
+    if($i<2)return false;
+
+    $i=preg_match_all('/[A-Z]/',$password,$empty);      // 2 Grosse Buchstaben vorhanden?
+    if($i<2)return false;
+
+    return true;
+}
+//DB verbindung erstellt
+$db = new mysqli('localhost','root','','polkapiwo','3307');
+
+//Prüft die DB verbindung
+if($db->connect_error):
+    echo $db->connect_error;
+endif;
+
+
+//Persönlich Angaben
+$formErrors = [];
+$name = '';
+$vorname = '';
+$email = "";
+$alter = "";
+$pass = "";
+$pass2 = "";
+
+//Wohnort
+$land = "";
+$plz = "";
+$ort = "";
+$straße = "";
+$hausnummer = "";
+
+if(isset($_POST["abschicken"])):
+
+    //Persönliche Angaben
+    $name = $_POST['name'];
+    $vorname = $_POST['vorname'];
+    $email = $_POST['email'];
+    $alter = $_POST['alter'];
+    $pass = $_POST['pass'];
+    $pass2 = $_POST['pass2'];
+
+    //Wohnort
+    $land = $_POST['land'];
+    $plz = $_POST['plz'];
+    $ort= $_POST['ort'];
+    $straße = $_POST['straße'];
+    $hausnummer = $_POST['hausnummer'];
+
+    $search_email = $db->prepare("SELECT kunden_id FROM kunden where email = ?");
+    $search_email->bind_param('s',$email);
+    $search_email->execute();
+    $search_result = $search_email->get_result();
+
+    if($search_result->num_rows != 0){
+        $formErrors['email'] = "Die E-Mail Adresse ist im System schon hinterlegt. Bitte benutzen Sie eine andere!";
+    }
+
+    if(empty($vorname)){
+        $formErrors['vorname'] = "Bitte einen Vornamen eingeben!";
+
+    }
+    if(empty($name)){
+        $formErrors['name'] = "Bitte einen Namen eingeben!";
+
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $formErrors['email'] = "Bitte eine Richtige E-mail eingeben!";
+    }
+    if($alter < 16) {
+        $formErrors['alter'] = "Sie sind zu Jung!";
+    }
+    if(empty($alter)) {
+        $formErrors['alter'] = "Bitte Ihr Alter eintragen!";
+    }
+    if(empty($pass)) {
+        $formErrors['pass'] = "Bitte ein Passwort eintragen!";
+    }
+    if(empty($pass2)) {
+        $formErrors['pass2'] = "Bitte ein Passwort eintragen!";
+    }
+   /* if(check_pass($pass,"")) {
+        $formErrors['pass'] = "Das Passwort muss zwischen 8 und 15 Zeichen lang sein! <br>
+                       Darin enthalten müssen mindestens 4 Zahlen, 2 kleine Buchstaben und 2 große Buchstaben  ";
+    }*/
+    if($pass != $pass2) {
+        $formErrors['pass'] = "Die Passwörter stimmen nicht überein!";
+        $formErrors['pass2'] = "Die Passwörter stimmen nicht überein!";
+    }
+    if(empty($land)) {
+        $formErrors['land'] = "Bitte Ihr Land eintragen!";
+    }
+    if(empty($plz)) {
+        $formErrors['plz'] = "Bitte Ihre Postleitzahl eintragen!";
+    }
+    if(empty($ort)) {
+        $formErrors['ort'] = "Bitte Ihren Wohnort eintragen!";
+    }
+    if(empty($straße)) {
+        $formErrors['straße'] = "Bitte Ihre Straße eintragen!";
+    }
+  /*  if(is_numeric($hausnummer) ) {
+        $formErrors['hausnummer'] = "Die Hausnummer darf nur aus zahlen bestehen";
+    }*/
+    if(empty($hausnummer)) {
+        $formErrors['hausnummer'] = "Bitte Ihre Hausnummer eintragen";
+    }
+
+
+    if(count($formErrors) === 0){
+        //Damit das passwort nicht in der db sichtbar ist
+        $pass =md5($pass);
+
+        $insert = $db->prepare("INSERT INTO kunden (`name`, `vorname`, `alter`, `passwort`, `email`) values (?,?,?,?,?)");
+        $insert->bind_param('ssiss',$name,$vorname,$alter,$pass,$email);
+        $insert->execute();
+
+        //Wie kriege ich den Priamry key vom kunden und packe ihn in den Fremdschlüssel platz kunden_id von der Tabelle wohnort
+        //select max kunden_id from kunden
+        // in var speichern und einsetzen
+
+        $kunden_id= $db->insert_id;
+
+        $insert2 = $db->prepare("INSERT INTO wohnort (`kunden_id`,`land`, `plz`, `ort`, `straße`, `hausnummer`) values (?,?,?,?,?,?)");
+        $insert2->bind_param('issssi',$kunden_id,$land,$plz,$ort,$straße,$hausnummer);
+        $insert2->execute();
+
+        if($insert !== false):
+            echo "Dein Account wurde erfolgreich erstellt";
+        endif;
+
+
+    }
+
+endif;
+?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -20,21 +166,7 @@
         </div>
     </div>
 </header>
-<?php
-function check_pass($password,$empty) {
-    $empty=array();
-    $i=preg_match_all('/[0-9]/',$password,$empty);      // 4 Zahlen vorhanden ?
-    if($i<4)return false;
 
-    $i=preg_match_all('/[a-z]/',$password,$empty);      // 2 kleine Buchstaben vorhanden?
-    if($i<2)return false;
-
-    $i=preg_match_all('/[A-Z]/',$password,$empty);      // 2 Grosse Buchstaben vorhanden?
-    if($i<2)return false;
-
-    return true;
-}
-?>
 <?php
 include('nav.in.php')
 ?>
@@ -53,73 +185,124 @@ include('nav.in.php')
         <tr>
             <td>Vorname:</td>
             <td>
-                <input maxlength="50" name="vorname" size="45" type="text" id="name1" placeholder="Max" />
-                <span id = "msgvn" style="color:red"> </span>
+                <input maxlength="50" name="vorname" size="45" type="text" id="name1" placeholder="Max" value="<?=$vorname?>"/>
+                <?php
+                    if(isset($formErrors['vorname'])){
+                        echo '<span style="color:red">'. $formErrors['vorname'].'</span>';
+                    }
+                ?>
+
             </td>
         </tr>
         <tr>
             <td>Nachname:</td>
             <td>
-                <input name="name" size="45" type="text" id="name2" placeholder="Mustermann" />
-                <span id = "msgnn" style="color:red"> </span>
+                <input name="name" size="45" type="text" id="name2" placeholder="Mustermann" value="<?=$name?>"/>
+                <?php
+                    if(isset($formErrors['name'])){
+                        echo '<span  style="color:red">'. $formErrors['name'].'</span>';
+                    }
+                ?>
             </td>
         </tr>
         <tr>
             <td>Email:</td>
             <td>
-                <input type="email" name="email" id="email"placeholder="max.mustermann@gmx.de" size="45" >
+                <input type="email" name="email" id="email"placeholder="max.mustermann@gmx.de" size="45" value="<?=$email?>"/>
+                <?php
+                    if(isset($formErrors['email'])){
+                        echo '<span style="color:red">'. $formErrors['email'].'</span>';
+                    }
+                ?>
             </td>
         </tr>
         <tr>
             <td>Alter:</td>
             <td>
-                <input name="alter" size="45" type="number" placeholder="18" />
+                <input name="alter" size="45" type="number" placeholder="18" value="<?=$alter?>"/>
+                <?php
+                    if(isset($formErrors['alter'])){
+                        echo '<span style="color:red">'. $formErrors['alter'].'</span>';
+                    }
+                ?>
             </td>
         </tr>
         <tr>
             <td>Passwort:</td>
             <td>
                 <input name="pass" size="45" type="password" id="pw1" placeholder="*********" />
-                <span id = "msg1" style="color:red"> </span>
+                <?php
+                if(isset($formErrors['pass'])){
+                    echo '<span style="color:red">'. $formErrors['pass'].'</span>';
+                }
+                ?>
             </td>
         </tr>
         <tr>
             <td>Passwort wiederholen:</td>
             <td>
                 <input name="pass2" size="45" type="password" id="pw2" placeholder="*********" />
-                <span id = "msg2" style="color:red"> </span>
+                <?php
+                if(isset($formErrors['pass2'])){
+                    echo '<span style="color:red">'. $formErrors['pass2'].'</span>';
+                }
+                ?>
             </td>
         </tr>
         <td><h2> Wohnort</h2></td>
         <tr>
             <td>Land:</td>
             <td>
-                <input name="land" size="45" type="text" id="land" placeholder="Germanien" />
-
+                <input name="land" size="45" type="text" id="land" placeholder="Germanien" value="<?=$land?>"//>
+                <?php
+                if(isset($formErrors['land'])){
+                    echo '<span style="color:red">'. $formErrors['land'].'</span>';
+                }
+                ?>
             </td>
         </tr>
         <tr>
             <td>Postleitzahl:</td>
             <td>
-                <input name="plz" size="45" type="number" id="plz" placeholder="44653" />
+                <input name="plz" size="45" type="number" id="plz" placeholder="44653" value="<?=$plz?>"//>
+                <?php
+                if(isset($formErrors['plz'])){
+                    echo '<span style="color:red">'. $formErrors['plz'].'</span>';
+                }
+                ?>
             </td>
         </tr>
         <tr>
             <td>Ort:</td>
             <td>
-                <input name="ort" size="45" type="text" id="ort" placeholder="Herne" />
+                <input name="ort" size="45" type="text" id="ort" placeholder="Herne" value="<?=$ort?>"//>
+                <?php
+                if(isset($formErrors['ort'])){
+                    echo '<span style="color:red">'. $formErrors['ort'].'</span>';
+                }
+                ?>
             </td>
         </tr>
         <tr>
             <td>Straße:</td>
             <td>
-                <input name="straße" size="45" type="text" id="straße" placeholder="Promilleweg" />
+                <input name="straße" size="45" type="text" id="straße" placeholder="Promilleweg" value="<?=$straße?>"//>
+                <?php
+                if(isset($formErrors['straße'])){
+                    echo '<span style="color:red">'. $formErrors['straße'].'</span>';
+                }
+                ?>
             </td>
         </tr>
         <tr>
             <td>Hausnummer:</td>
             <td>
-                <input name="hausnummer" size="45" type="text" id="hausnummer" placeholder="69" />
+                <input name="hausnummer" size="45" type="text" id="hausnummer" placeholder="69" value="<?=$hausnummer?>"//>
+                <?php
+                if(isset($formErrors['hausnummer'])){
+                    echo '<span style="color:red">'. $formErrors['hausnummer'].'</span>';
+                }
+                ?>
             </td>
         </tr>
         <tr>
@@ -133,110 +316,8 @@ include('nav.in.php')
     </table>
 </form>
 
-<?php
-//DB verbindung erstellt
-$db = new mysqli('localhost','root','','polkapiwo','3307');
-
-//Prüft die DB verbindung
-if($db->connect_error):
-    echo $db->connect_error;
-endif;
-
-//Ist zum Prüfen ob es abgeschickt wurde
-if(isset($_POST["abschicken"])):
-
-    //Persönliche Angaben
-    $name = $_POST['name'];
-    $vorname = $_POST['vorname'];
-    $email = $_POST['email'];
-    $alter = $_POST['alter'];
-    $pass = $_POST['pass'];
-    $pass2 = $_POST['pass2'];
-
-    //Wohnort
-    $land = $_POST['land'];
-    $plz = $_POST['plz'];
-    $ort= $_POST['ort'];
-    $straße = $_POST['straße'];
-    $hausnummer = $_POST['hausnummer'];
-
-    //Checkt ob die Email adresse schon im System vorhanden ist-.
-    $search_email = $db->prepare("SELECT kunden_id FROM kunden where email = ?");
-    $search_email->bind_param('s',$email);
-    $search_email->execute();
-    $search_result = $search_email->get_result();
-
-    if($search_result->num_rows == 0):
-
-        if($vorname == ""):
-            echo "Bitte einen Vornamen eintragen! <br>";
-            return;
-        endif;
-
-        if($name == ""):
-            echo "Bitte einen Namen eintragen! <br>";
-            return;
-        endif;
-
-//        Ob die email adresse legetim ist
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo  "Bitte ein Richtiges E-mail format angeben! <br>";
-            return;
-        }
-
-        if($alter == ""):
-            echo "Bitte Ihr Alter eintragen! <br>";
-            return;
-        endif;
-
-//        if (check_pass($pass,"")) {
-//
-//        }
-//            else echo "Das Passwort muss zwischen 8 und 15 Zeichen lang sein! <br>
-//                        Darin enthalten müssen mindestens 4 Zahlen, 2 kleine Buchstaben und 2 große Buchstaben ";
-//        return;
 
 
-        if($pass == ""):
-            echo "Bitte ihr Passwort eintragen!<br>";
-            exit;
-        endif;
-
-//        if(strlen($pass) < 8 and  strlen($pass) > 15):
-//            echo "Ihr Passwort muss zwischen 8 und 15 Zeichen lang sein!";
-//            exit;
-//        endif;
-
-        if($pass == $pass2):
-            //Damit das passwort nicht in der db sichtbar ist
-            $pass =md5($pass);
-
-            $insert = $db->prepare("INSERT INTO kunden (`name`, `vorname`, `alter`, `passwort`, `email`) values (?,?,?,?,?)");
-            $insert->bind_param('ssiss',$name,$vorname,$alter,$pass,$email);
-            $insert->execute();
-
-            //Wie kriege ich den Priamry key vom kunden und packe ihn in den Fremdschlüssel platz kunden_id von der Tabelle wohnort
-            //select max kunden_id from kunden
-            // in var speichern und einsetzen
-            $kunden_id= $db->prepare("SELECT MAX(kunden_id) FROM `kunden`");
-
-            $insert2 = $db->prepare("INSERT INTO wohnort (`kunden_id`,`land`, `plz`, `ort`, `straße`, `hausnummer`) values (?,?,?,?,?,?)");
-            $insert2->bind_param('sass',$kunden_id,$land,$plz,$ort,$straße,$hausnummer);
-            $insert2->execute();
-
-            if($insert !== false):
-                echo "Dein Account wurde erfolgreich erstellt";
-            endif;
-
-        else:
-            echo "Deine Passwörter stimmt nicht überein!";
-        endif;
-    else:
-        echo "Die E-Mail Adresse ist im System schon hinterlegt. Bitte benutzen Sie eine andere!";
-    endif;
-endif;
-?>
-//test
 <?php
 include('footer.in.php')
 ?>
