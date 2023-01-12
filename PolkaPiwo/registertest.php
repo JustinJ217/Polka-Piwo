@@ -135,11 +135,6 @@ if(isset($_POST["abschicken"])):
         $insert2->bind_param('issssi',$kunden_id,$land,$plz,$ort,$straße,$hausnummer);
         $insert2->execute();
 
-        if($insert !== false):
-            echo "Dein Account wurde erfolgreich erstellt";
-        endif;
-
-
     }
 
 endif;

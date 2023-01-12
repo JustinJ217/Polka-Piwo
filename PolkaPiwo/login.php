@@ -1,51 +1,5 @@
 <?php
-
-//DB verbindung erstellt
-$db = new mysqli('localhost','root','','polkapiwo','3307');
-
-//Prüft die DB verbindung
-if($db->connect_error):
-    echo $db->connect_error;
-endif;
-
-if (isset($_POST['login'])) {
-
-
-
-    if ($_POST['username'] === 'itc' && $_POST['password'] === 'secret') {
-        $email = $_POST['email'];
-        $pass = $_POST['pass'];
-        $pass = md5($pass);
-
-        $search_user = $db->prepare("Select id FROM kunden where email = ? and password = ?");
-        $search_user->bind_param('ss',$email,$pass);
-        $search_user->execute();
-        $search_result = $search_user->get_result();
-
-        if($search_result->num_rows == 1){
-
-        }
-
-        $_SESSION['auth'] = [
-
-            'loggedIn' => true,
-
-            'lastActivity' => time(),
-
-            'loggedInUser' => 'itc'
-
-        ];
-
-
-
-        header('Location: 05_Login_success.php');
-
-        exit();
-
-    }
-
-}
-
+include_once __DIR__ . '/config.php';
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -78,13 +32,13 @@ include('nav.in.php')
         <tr>
             <td>Email:</td>
             <td>
-                <input type="email" name="email" id="email"placeholder="max.mustermann@gmx.de" size="45" value="<?=$email?> >
+                <input type="email" name="email" id="email"placeholder="max.mustermann@gmx.de" size="45" >
             </td>
         </tr>
         <tr>
             <td>Passwort:</td>
             <td>
-                <input name="pass" size="45" type="password" placeholder="*********" value="/>
+                <input name="pass" size="45" type="password" placeholder="*********" />
             </td>
         </tr>
         <tr>
@@ -96,6 +50,37 @@ include('nav.in.php')
         </tbody>
     </table>
 </form>
+<?php
+session_start();
+//DB verbindung erstellt
+$db = new mysqli('localhost','root','','polkapiwo','3307');
+
+//Prüft die DB verbindung
+if($db->connect_error):
+    echo $db->connect_error;
+endif;
+
+if (isset($_POST['login'])) {
+
+    $email = $_POST['email'];
+    $pass = $_POST['pass'];
+    $pass = md5($pass);
+
+    $search_email = $db->prepare("Select kunden_id FROM kunden where email = ? and passwort = ?");
+    $search_email->bind_param('ss',$email,$pass);
+    $search_email->execute();
+    $search_result = $search_email->get_result();
+
+    if($search_result->num_rows == 1) {
+        $search_objekt = $search_result->fetch_object();
+        $_SESSION['email'] = $search_objekt->kunden_id;
+        header('Location: /itc2022/PolkaPiwo/main.php');
+    }else{
+        echo "Ihre Angaben sind nicht korrekt";
+    }
+}
+
+?>
 <p>Falls Sie noch kein Konto haben, klicken Sie <a href="registertest.php">hier</a></p>
 <?php
 include('footer.in.php')

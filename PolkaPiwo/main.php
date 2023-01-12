@@ -1,3 +1,6 @@
+<?php
+include_once __DIR__ . '/config.php';
+?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -7,6 +10,15 @@
     <link href="style/style.css" rel="stylesheet" 　type="text/css">
     <link rel="icon" type="image/vnd.microsoft.icon" href="src/favicon.ico">
 </head>
+
+<?php
+session_start();
+    if(isset($_SESSION['user'])){
+        require_once('ui.php');
+    }
+
+?>
+
 <?php
 include('header.in.php')
 ?>
