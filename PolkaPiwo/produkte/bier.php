@@ -1,3 +1,12 @@
+<?php
+
+$db = new mysqli('localhost','root','','polkapiwo','3306');
+
+if($db->connect_error):
+    echo $db->connect_error;
+endif;
+?>
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -33,18 +42,13 @@ include('../nav.in.php')
 </div>
 <div style = "position:relative; left:50px; bottom:400px;">
     <h1>REZENSIONEN</h1>
-    <button id="rez">Rezension Verfassen</button>
-    <div>
-        <span id="outputRez"></span>
-    </div>
+    <form action="" method="post">
+        Rezension: <input type="text" name="name" id="userID"><br>
+        <input type="submit">
+    </form>
 </div>
 
-<script>
-        document.getElementById("rez").onclick = function(){
-        var rez = prompt("Was ist ihre meinung zum Produkt?");
-        document.getElementById("outputRez").innerText = rez;
-    }
-</script>
+
 
 <?php
 include('../footer.in.php')
