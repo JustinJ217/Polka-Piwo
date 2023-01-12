@@ -5,8 +5,16 @@ $db = new mysqli('localhost','root','','polkapiwo','3306');
 if($db->connect_error):
     echo $db->connect_error;
 endif;
-?>
 
+if(isset($_POST["schickRez"])) {
+
+    $rezension = $_POST['rezension'];
+
+    $insert = $db->prepare("INSERT INTO rezension (`artikel_id`, `kunden_id`, `rezension`) values (1,1,?)");
+    $insert->bind_param('s',$rezension);
+    $insert->execute();
+}
+?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -35,7 +43,7 @@ include('../nav.in.php')
     <div style = "position:relative; left:800px; bottom:600px">
         <h3>Beschreibung:</h3>
         <span class="subheading">Ein erfrischender Kasten Bier gefüllt mit 24 gekühlten Flaschen!</span> <br>
-        <!--<span class="subheading">Alkoholgehalt: 9,6 % vol.</span> <br> -->
+        <span class="subheading">Alkoholgehalt: 9,6 % vol.</span> <br>
         <span class="subheading">Inhalt pro Flasche: 0,5l</span> <br>
         <span class="subheading">Zutaten: Wasser, Gerstenmalz, Hopfen, Hopfenextrakt</span> <br>
     </div>
@@ -43,8 +51,8 @@ include('../nav.in.php')
 <div style = "position:relative; left:50px; bottom:400px;">
     <h1>REZENSIONEN</h1>
     <form action="" method="post">
-        Rezension: <input type="text" name="name" id="userID"><br>
-        <input type="submit">
+        Rezension: <input type="text" name="rezension" id="userID"><br>
+        <input type="submit" name="schickRez">
     </form>
 </div>
 
