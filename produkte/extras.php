@@ -19,9 +19,9 @@
 <?php
 include('../nav.in.php')
 ?>
-<div style = "position:relative; left:100px; bottom:150px"><img src="../src/img/Merchbg.png" width="700" height="800">
+<div style = "position:relative; left:100px; bottom:150px"><img src="../src/img/sonst1.png" width="700" height="800">
     <div style = "position:relative; left:800px; bottom:600px">
-        <h1>Preis: 30€</h1>
+        <h1>Preis: 5€</h1>
     </div>
     <div style = "position:relative; left:800px; bottom:600px">
         <h3>Beschreibung:</h3>
@@ -31,7 +31,7 @@ include('../nav.in.php')
         <span class="subheading">Zutaten: Wasser, Gerstenmalz, Hopfen, Hopfenextrakt</span> <br>
     </div>
 </div>
-<div style = "position:relative; left:50px; bottom:300px;">
+<div style = "position:relative; left:50px; bottom:400px;">
     <h1>REZENSIONEN</h1>
     <button id="rez">Rezension Verfassen</button>
     <div>
