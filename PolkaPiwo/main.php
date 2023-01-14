@@ -9,7 +9,7 @@ if(!isset($_COOKIE['age_verified'])) {
         var age = prompt("Bitte geben Sie Ihr Alter ein:");
         if(age < 18) {
             alert("Sie sind leider zu jung, um diese Website zu besuchen.");
-            window.location.href = "http://www.beispielseite.de";
+            window.location.href = "https://www.youtube.com/watch?v=xvFZjo5PgG0;
         } else {
             var d = new Date();
             d.setTime(d.getTime() + (365*24*60*60*1000));
