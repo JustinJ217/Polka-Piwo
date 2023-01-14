@@ -1,6 +1,27 @@
 <?php
 include_once __DIR__ . '/config.php';
 ?>
+<?php
+if(!isset($_COOKIE['age_verified'])) {
+    ?>
+
+    <script>
+        var age = prompt("Bitte geben Sie Ihr Alter ein:");
+        if(age < 18) {
+            alert("Sie sind leider zu jung, um diese Website zu besuchen.");
+            window.location.href = "http://www.beispielseite.de";
+        } else {
+            var d = new Date();
+            d.setTime(d.getTime() + (365*24*60*60*1000));
+            var expires = "expires="+ d.toUTCString();
+            document.cookie = "age_verified=true;" + expires + ";path=/";
+        }
+    </script>
+
+    <?php
+}
+?>
+
 <!DOCTYPE html>
 <html lang="de">
 <head>

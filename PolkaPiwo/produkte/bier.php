@@ -1,6 +1,6 @@
 <?php
 
-$db = new mysqli('localhost','root','','polkapiwo','3306');
+$db = new mysqli('localhost','root','','polkapiwo','3307');
 
 if($db->connect_error):
     echo $db->connect_error;
