@@ -10,7 +10,7 @@ if(isset($_POST["schickRez"])) {
 
     $rezension = $_POST['rezension'];
 
-    $insert = $db->prepare("INSERT INTO rezension (`artikel_id`, `kunden_id`, `rezension`) values (1,1,?)");
+    $insert = $db->prepare("INSERT INTO rezension (`artikel_id`, `kunden_id`, `rezension`) values (2,1,?)");
     $insert->bind_param('s',$rezension);
     $insert->execute();
 }
@@ -36,7 +36,7 @@ if(isset($_POST["schickRez"])) {
 <?php
 include('../nav.in.php')
 ?>
-<div style = "position:relative; left:100px; bottom:150px"><img src="../src/img/sonst1.png" width="700" height="800">
+<div style = "position:relative; left:100px; bottom:150px"><img src="../src/img/Merchbg.png" width="700" height="800">
     <div style = "position:relative; left:800px; bottom:600px">
         <h1>Preis: 5€</h1>
     </div>
@@ -55,7 +55,7 @@ include('../nav.in.php')
         <input type="submit" name="schickRez"><br>
     </form>
     <?php
-    $aus = "SELECT * FROM rezension INNER JOIN kunden USING(kunden_id) WHERE artikel_id = 1";
+    $aus = "SELECT * FROM rezension INNER JOIN kunden USING(kunden_id) WHERE artikel_id = 2";
     foreach ($db->query($aus) as $row) {
         echo "".$row['name'].": ".$row['rezension']."<br /> <br />" ;
     }
