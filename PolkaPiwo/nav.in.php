@@ -15,7 +15,8 @@ include_once __DIR__ . '/config.php';
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>ueberuns.php">Über uns</a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>shop.php">Shop</a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>kontakt.php">Kontakt</a></li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>login.php">Login</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>logout.php">Logout</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>warenkorb.php"><img src="src/img/card1.png" alt="Warenkorb Logo" width="40"  ></a></li>
             </ul>
         </div>
     </div>
