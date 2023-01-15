@@ -1,3 +1,20 @@
+<?php
+
+$db = new mysqli('localhost','root','','polkapiwo','3306');
+
+if($db->connect_error):
+    echo $db->connect_error;
+endif;
+
+if(isset($_POST["schickRez"])) {
+
+    $rezension = $_POST['rezension'];
+
+    $insert = $db->prepare("INSERT INTO rezension (`artikel_id`, `kunden_id`, `rezension`) values (3,1,?)");
+    $insert->bind_param('s',$rezension);
+    $insert->execute();
+}
+?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -33,18 +50,19 @@ include('../nav.in.php')
 </div>
 <div style = "position:relative; left:50px; bottom:400px;">
     <h1>REZENSIONEN</h1>
-    <button id="rez">Rezension Verfassen</button>
-    <div>
-        <span id="outputRez"></span>
-    </div>
+    <form action="" method="post">
+        Rezension:<br> <input type="text" name="rezension" id="userID"><br>
+        <input type="submit" name="schickRez"><br>
+    </form>
+    <?php
+    $aus = "SELECT * FROM rezension INNER JOIN kunden USING(kunden_id) WHERE artikel_id = 3";
+    foreach ($db->query($aus) as $row) {
+        echo "".$row['name'].": ".$row['rezension']."<br /> <br />" ;
+    }
+    ?>
 </div>
 
-<script>
-    document.getElementById("rez").onclick = function(){
-        var rez = prompt("Was ist ihre meinung zum Produkt?");
-        document.getElementById("outputRez").innerText = rez;
-    }
-</script>
+
 
 <?php
 include('../footer.in.php')
