@@ -1,6 +1,6 @@
 <?php
 
-$db = new mysqli('localhost','root','','polkapiwo','3307');
+$db = new mysqli('localhost','root','','polkapiwo','3306');
 
 if($db->connect_error):
     echo $db->connect_error;
@@ -51,9 +51,15 @@ include('../nav.in.php')
 <div style = "position:relative; left:50px; bottom:400px;">
     <h1>REZENSIONEN</h1>
     <form action="" method="post">
-        Rezension: <input type="text" name="rezension" id="userID"><br>
-        <input type="submit" name="schickRez">
+        Rezension:<br> <input type="text" name="rezension" id="userID"><br>
+        <input type="submit" name="schickRez"><br>
     </form>
+    <?php
+    $aus = "SELECT * FROM rezension INNER JOIN kunden USING(kunden_id) WHERE artikel_id = 1";
+    foreach ($db->query($aus) as $row) {
+        echo "".$row['name'].": ".$row['rezension']."<br /> <br />" ;
+    }
+    ?>
 </div>
 
 

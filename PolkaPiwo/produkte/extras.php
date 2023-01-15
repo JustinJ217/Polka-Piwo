@@ -1,3 +1,20 @@
+<?php
+
+$db = new mysqli('localhost','root','','polkapiwo','3306');
+
+if($db->connect_error):
+    echo $db->connect_error;
+endif;
+
+if(isset($_POST["schickRez"])) {
+
+    $rezension = $_POST['rezension'];
+
+    $insert = $db->prepare("INSERT INTO rezension (`artikel_id`, `kunden_id`, `rezension`) values (2,1,?)");
+    $insert->bind_param('s',$rezension);
+    $insert->execute();
+}
+?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -19,9 +36,9 @@
 <?php
 include('../nav.in.php')
 ?>
-<div style = "position:relative; left:100px; bottom:150px"><img src="../src/img/sonst1.png" width="700" height="800">
+<div style = "position:relative; left:100px; bottom:150px"><img src="../src/img/Merchbg.png" width="700" height="800">
     <div style = "position:relative; left:800px; bottom:600px">
-        <h1>Preis: 5€</h1>
+        <h1>Preis: 20€</h1>
     </div>
     <div style = "position:relative; left:800px; bottom:600px">
         <h3>Beschreibung:</h3>
@@ -33,18 +50,19 @@ include('../nav.in.php')
 </div>
 <div style = "position:relative; left:50px; bottom:400px;">
     <h1>REZENSIONEN</h1>
-    <button id="rez">Rezension Verfassen</button>
-    <div>
-        <span id="outputRez"></span>
-    </div>
+    <form action="" method="post">
+        Rezension:<br> <input type="text" name="rezension" id="userID"><br>
+        <input type="submit" name="schickRez"><br>
+    </form>
+    <?php
+    $aus = "SELECT * FROM rezension INNER JOIN kunden USING(kunden_id) WHERE artikel_id = 1";
+    foreach ($db->query($aus) as $row) {
+        echo "".$row['name'].": ".$row['rezension']."<br /> <br />" ;
+    }
+    ?>
 </div>
 
-<script>
-    document.getElementById("rez").onclick = function(){
-        var rez = prompt("Was ist ihre meinung zum Produkt?");
-        document.getElementById("outputRez").innerText = rez;
-    }
-</script>
+
 
 <?php
 include('../footer.in.php')
