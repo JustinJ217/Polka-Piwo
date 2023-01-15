@@ -18,15 +18,7 @@ include('header.in.php')
 <?php
 include('nav.in.php')
 ?>
-<?php
-session_start();
-if(empty($_SESSION['user'])){
-    header('Location: /itc2022/PolkaPiwo/unknown/main.php');
-}else{
 
-
-}
-?>
 <?php
     echo '<span  style="color:Black">Willkommen '. $_SESSION['name'].'. Ihre Id ist: '. $_SESSION['user'].'</span>';
 ?>

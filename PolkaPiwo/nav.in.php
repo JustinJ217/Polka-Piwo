@@ -1,6 +1,13 @@
 <?php
 include_once __DIR__ . '/config.php';
 ?>
+<?php
+session_start();
+if(empty($_SESSION['user'])){
+    header('Location: /itc2022/PolkaPiwo/unknown/main.php');
+}else{
+}
+?>
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="<?=$PAGE_ROOT?>main.php"><img src="<?=$PAGE_ROOT?>src/img/PolkaPiwo.png" width="120" height="60">
@@ -15,8 +22,9 @@ include_once __DIR__ . '/config.php';
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>ueberuns.php">Über uns</a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>shop.php">Shop</a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>kontakt.php">Kontakt</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>Impressum.php">Impressum</a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>logout.php">Logout</a></li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>warenkorb.php"><img src="src/img/card1.png" alt="Warenkorb Logo" width="40"  ></a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>warenkorb.php"><img src="../PolkaPiwo/src/img/card1.png" alt="Warenkorb" width="40"  ></a></li>
             </ul>
         </div>
     </div>

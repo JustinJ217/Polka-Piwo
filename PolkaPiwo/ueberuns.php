@@ -23,5 +23,15 @@
 <?php
 include('nav.in.php')
 ?>
+<p align="center" style="font-size:40px;">
+    Polka Piwo ist ein ausgezeichnetes handgemachtes polnisches Bier. Es wird auf traditionelle Weise hergestellt und hat einen frischen, süffigen und leicht hopfigen Geschmack. <br>
+    Es ist perfekt für alle Gelegenheiten - ob bei einer Party oder einem ruhigen Abend mit Ihnen und Freunden.<br>
+    Das 6er-Pack enthält 6 Flaschen des besten polnischen Bieres, das Sie kaufen können. <br>
+    Die Flaschen sind in einer edlen Geschenkbox verpackt, die jeden Moment noch spezieller macht. <br>
+    Mit dem Polka Piwo Paket erhalten Sie alles, was Sie brauchen, um Ihr nächstes Bierabenteuer zu beginnen!
+</p>
+<?php
+include('footer.in.php')
+?>
 </body>
 </html>
