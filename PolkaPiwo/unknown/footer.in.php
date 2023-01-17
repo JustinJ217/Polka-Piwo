@@ -1,4 +1,5 @@
 <footer class="container">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <a align="center" href="https://twitter.com/polkapiwo/" class="fa fa-twitter"></a>
     <a align="center" href="https://www.instagram.com/polkapiwo/" class="fa fa-instagram"></a>

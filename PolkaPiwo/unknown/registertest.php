@@ -16,7 +16,7 @@ function check_pass($password,$empty): bool
     return true;
 }
 //DB verbindung erstellt
-$db = new mysqli('localhost','root','','polkapiwo','3306');
+$db = new mysqli('localhost','root','','polkapiwo','3307');
 
 //Prüft die DB verbindung
 if($db->connect_error):

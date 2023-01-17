@@ -4,7 +4,7 @@ include_once __DIR__ . '/config.php';
 <?php
 session_start();
 //DB verbindung erstellt
-$db = new mysqli('localhost','root','','polkapiwo','3306');
+$db = new mysqli('localhost','root','','polkapiwo','3307');
 
 //Prüft die DB verbindung
 if($db->connect_error):
