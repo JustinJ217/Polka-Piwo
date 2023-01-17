@@ -57,12 +57,13 @@ if(isset($_POST["schickRez"])) {
     $insert = $db->prepare("INSERT INTO rezension (`artikel_id`, `kunden_id`, `rezension`,`bewertung`) values (1,?,?,?)");
     $insert->bind_param('isi', $uid, $rezension,$bewertung);
     $insert->execute();
+
 }
 
 
 if (isset($_POST["Delete"])) {
     $del = $db->prepare("DELETE * FROM rezension");
-    $del;
+    $del->execute();
 }
 ?>
 
