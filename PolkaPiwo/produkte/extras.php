@@ -15,6 +15,15 @@ if(isset($_POST["schickRez"])) {
     $insert->execute();
 }
 ?>
+<?php
+session_start();
+if(empty($_SESSION['user'])){
+    header('Location: /itc2022/PolkaPiwo/unknown/main.php');
+}else{
+
+
+}
+?>
 <!DOCTYPE html>
 <html lang="de">
 <head>

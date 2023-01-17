@@ -1,20 +1,7 @@
 <?php
-
-$db = new mysqli('localhost','root','','polkapiwo','3306');
-
-if($db->connect_error):
-    echo $db->connect_error;
-endif;
-
-if(isset($_POST["schickRez"])) {
-
-    $rezension = $_POST['rezension'];
-
-    $insert = $db->prepare("INSERT INTO rezension (`artikel_id`, `kunden_id`, `rezension`) values (1,1,?)");
-    $insert->bind_param('s',$rezension);
-    $insert->execute();
-}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -36,9 +23,57 @@ if(isset($_POST["schickRez"])) {
 <?php
 include('../nav.in.php')
 ?>
+
+<?php
+
+$db = new mysqli('localhost','root','','polkapiwo','3306');
+
+if($db->connect_error):
+    echo $db->connect_error;
+endif;
+
+$formErrors = [];
+
+if(isset($_POST["warenkorb"])) {
+
+    $testst = $_POST['testst'];
+    $uid = $_SESSION['user'];
+
+    $insert2 = $db->prepare("INSERT INTO warenkorb(anzahl, kunden_id) values (?,?)");
+    $insert2->bind_param('ii', $testst, $uid);
+    $insert2->execute();
+}
+
+if(isset($_POST["schickRez"])) {
+    $rezension = $_POST['rezension'];
+    $uid = $_SESSION['user'];
+    $bewertung = $_POST['quantity'];
+
+    if(empty($rezension)){
+        $formErrors['rezension'] = "Bitte einen Vornamen eingeben!";
+
+    }
+
+    $insert = $db->prepare("INSERT INTO rezension (`artikel_id`, `kunden_id`, `rezension`,`bewertung`) values (1,?,?,?)");
+    $insert->bind_param('isi', $uid, $rezension,$bewertung);
+    $insert->execute();
+}
+
+
+if (isset($_POST["Delete"])) {
+    $del = $db->prepare("DELETE * FROM rezension");
+    $del;
+}
+?>
+
 <div style = "position:relative; left:100px; bottom:150px"><img src="../src/img/kasten.png" width="700" height="800">
     <div style = "position:relative; left:800px; bottom:600px">
-        <h1>Preis: 30€</h1>
+        <h1><?php
+            $aus = "SELECT * FROM artikel WHERE artikel_id = 1";
+            foreach ($db->query($aus) as $row) {
+                echo "Preis: ".$row['preis']."€ ";
+            }
+            ?></h1>
     </div>
     <div style = "position:relative; left:800px; bottom:600px">
         <h3>Beschreibung:</h3>
@@ -46,26 +81,31 @@ include('../nav.in.php')
         <span class="subheading">Alkoholgehalt: 9,6 % vol.</span> <br>
         <span class="subheading">Inhalt pro Flasche: 0,5l</span> <br>
         <span class="subheading">Zutaten: Wasser, Gerstenmalz, Hopfen, Hopfenextrakt</span> <br>
+        Anzahl: <input type="number" id="quantity" name="testst" min="1" max="9"><br>
+        <input type="submit" name="warenkorb">In Warenkorb</input>
     </div>
 </div>
 <div style = "position:relative; left:50px; bottom:400px;">
     <h1>REZENSIONEN</h1>
     <form action="" method="post">
         Rezension:<br> <input type="text" name="rezension" id="userID"><br>
+        Bewertung: <input type="number" id="quantity" name="quantity" min="1" max="5"><br>
         <input type="submit" name="schickRez"><br>
-    </form>
-    <?php
+
+<?php
     $aus = "SELECT * FROM rezension INNER JOIN kunden USING(kunden_id) WHERE artikel_id = 1";
     foreach ($db->query($aus) as $row) {
-        echo "".$row['name'].": ".$row['rezension']."<br /> <br />" ;
+        echo "".$row['name'].": ".$row['rezension']." <br>Rating= ".$row['bewertung']." Sterne<br /> <br />" ;
     }
-    ?>
+?>
+    <input type="submit" name="Delete" ><br>
+    </form>
 </div>
-
 
 
 <?php
 include('../footer.in.php')
 ?>
 </body>
+
 </html>
