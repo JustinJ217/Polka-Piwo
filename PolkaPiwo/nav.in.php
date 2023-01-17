@@ -4,7 +4,7 @@ include_once __DIR__ . '/config.php';
 <?php
 session_start();
 if(empty($_SESSION['user'])){
-    header('Location: /itc2022/PolkaPiwo/unknown/main.php');
+header('Location: /itc2022/PolkaPiwo/unknown/main.php');
 }else{
 }
 ?>
@@ -24,7 +24,7 @@ if(empty($_SESSION['user'])){
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>kontakt.php">Kontakt</a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>Impressum.php">Impressum</a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>logout.php">Logout</a></li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>warenkorb.php"><img src="../PolkaPiwo/src/img/card1.png" alt="Warenkorb" width="40"  ></a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?=$PAGE_ROOT?>warenkorb.php"><img src="../PolkaPiwo/src/img/card1.png" alt="Warenkorb" width="40" ></a></li>
             </ul>
         </div>
     </div>

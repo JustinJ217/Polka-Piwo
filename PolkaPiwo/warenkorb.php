@@ -29,11 +29,105 @@ include('nav.in.php')
 ?>
 
 <?php
-    echo '<span  style="color:Black">'. $_SESSION['name'].' dein Warenkorb beseteht aus AnzahlDerArtikel.</span>';
+    echo '<span  style="color:Black">'. $_SESSION['name'].' dein Warenkorb beseteht aus:</span>';
 ?>
 
-<button onclick="window.location.href = 'https://www.paypal.me/JustinJanikPaintball';">Kaufen</button>
+<?php
+//DB verbindung erstellt
+$db = new mysqli('localhost','root','','polkapiwo','3307');
 
+//Prüft die DB verbindung
+if($db->connect_error):
+    echo $db->connect_error;
+endif;
+
+$bier = "";
+$merch = "";
+$extra = "";
+
+if(isset($_POST["kaufen"])):
+
+
+    $bier = $_POST['bier'];
+    $merch = $_POST['merch'];
+    $extra = $_POST['extra'];
+
+    $warenkorb_id = 0;
+
+    if(empty($bier)){
+    }else{
+        $insert = $db->prepare("INSERT INTO warenkorb (`anzahl`, `kunden_id`,artikel_id) values (?,?,1)");
+        $insert->bind_param('ii',$bier,$_SESSION['user']);
+        $insert->execute();
+        $warenkorb_id= $db->insert_id;
+    }
+
+
+    if(empty($merch)){
+    }else{
+        if($warenkorb_id == 0 ){
+            $insert2 = $db->prepare("INSERT INTO warenkorb (`anzahl`, `kunden_id`,artikel_id) values (?,?,2)");
+            $insert2->bind_param('ii',$bier,$_SESSION['user']);
+            $insert2->execute();
+        }
+        $insert2 = $db->prepare("INSERT INTO warenkorb (`warenkorb_id`,`anzahl`, `kunden_id`,artikel_id) values ($warenkorb_id,?,?,2)");
+        $insert2->bind_param('ii',$merch,$_SESSION['user']);
+        $insert2->execute();
+        $warenkorb_id= $db->insert_id;
+    }
+
+    if(empty($extra)){
+    }else{
+        if($warenkorb_id == 0 ){
+            $insert3 = $db->prepare("INSERT INTO warenkorb (`anzahl`, `kunden_id`,artikel_id) values (?,?,3)");
+            $insert3->bind_param('ii',$bier,$_SESSION['user']);
+            $insert3->execute();
+        }
+        $insert3 = $db->prepare("INSERT INTO warenkorb (`warenkorb_id`,`anzahl`, `kunden_id`,artikel_id) values ($warenkorb_id,?,?,3)");
+        $insert3->bind_param('ii',$extra,$_SESSION['user']);
+        $insert3->execute();
+        $warenkorb_id= $db->insert_id;
+    }
+
+
+    $insert = $db->prepare("INSERT INTO bestellung (`warenkorb_id`) values (?)");
+    $insert->bind_param('i',$warenkorb_id);
+    $insert->execute();
+
+endif;
+?>
+<form action="" method="post" >
+    <table border="0" cellspacing="0" cellpadding="2">
+        <tbody>
+        <h2>Ihr Warenkorb</h2>
+        <tr>
+            <td>Bier Kasten:</td>
+            <td>
+                <div style = "position:relative; left:100px; bottom:150px"><img src="../PolkaPiwo/src/img/kasten.png" width="700" height="800">
+                Anzahl: <input type="number" id="bier" name="bier" min="1" max="99" value="<?=$bier?>"><br>
+            </td>
+        </tr>
+        <tr>
+            <td>Merch:</td>
+            <td>
+                <div style = "position:relative; left:100px; bottom:150px"><img src="../PolkaPiwo/src/img/Merchbg.png" width="700" height="800">
+                Anzahl: <input type="number" id="merch" name="merch" min="1" max="99" value="<?=$merch?>"><br>
+            </td>
+        </tr>
+        <tr>
+            <td>Flaschenöffner:</td>
+            <td>
+                <div style = "position:relative; left:100px; bottom:150px"><img src="../PolkaPiwo/src/img/sonst1.png" width="700" height="800">
+                Anzahl: <input type="number" id="extra" name="extra" min="1" max="99" value="<?=$extra?>"><br>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="submit" name="kaufen" value="kaufen" />
+        </tr>
+        </tbody>
+    </table>
+</form>
+<button onclick="window.location.href = 'https://www.paypal.me/JustinJanikPaintball';">Spenden</button>
 <?php
 include('footer.in.php')
 ?>

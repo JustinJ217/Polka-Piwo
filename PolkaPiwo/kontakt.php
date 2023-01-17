@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kontakt</title>
     <link rel="stylesheet" type="text/css" href="style/style.css" media="screen" />
-
+    <link rel="icon" type="image/vnd.microsoft.icon" href="src/favicon.ico">
 </head>
 <body>
 <header class="masthead" style="background-image: url('src/img/blond.jpeg')">
@@ -23,64 +23,80 @@
 <?php
 include('nav.in.php')
 ?>
+<?php
+ $to = '';
+ $subject = '';
+ $message = '';
+ $name = '';
+ $email = '';
+
+if(isset($_POST['Senden'])) {
+
+
+
+    $to = "PolkaPiwo@gmx.net"; // Empfänger
+    $subject = $_POST['betreff']; // Betreff
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $message = $_POST['message'];
+    $headers = "From: " . $email;
+    mail($to, $subject, $message, $headers);
+    echo "Ihre Nachricht wurde erfolgreich versendet!";
+}
+?>
+
 <main>
-    <form action="https://www.youtube.com/watch?v=xvFZjo5PgG0" method="post">
+    <form action method="post">
         <table border="0" cellspacing="0" cellpadding="2">
             <tbody>
             <tr>
-                <td>Thema der Mail:</td>
+                <td>Name:</td>
                 <td>
-                    <select name="Thema">
-                        <option value="Allgemein">Allgemein</option>
-                        <option value="Geschmack">Geschmack</option>
-                        <option value="Lieferung">Lieferung</option>
-                        <option value="Marketing">Marketing</option>
-                        <option value="Bewerbung">Bewerbung</option>
-                        <option value="Service">Service</option>
-                        <option value="Sonstiges">Sonstiges</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Anrede:</td>
-                <td>
-                    <input checked="checked" name="Anrede" type="radio" value="Herr" /> Herr
-                    <input name="Anrede" type="radio" value="Frau" /> Frau
-                </td>
-            </tr>
-            <tr>
-                <td>Vorname:</td>
-                <td>
-                    <input maxlength="50" name="Vorname" size="45" type="text" placeholder="Max" />
-                </td>
-            </tr>
-            <tr>
-                <td>Nachname:</td>
-                <td>
-                    <input name="Nachname" size="45" type="text" placeholder="Mustermann" />
+                    <input type="text" name="name" id="name"placeholder="Max Mustermann" size="45" value="<?=$name?>" required>
+                    <?php
+                    if(isset($formErrors['name'])){
+                        echo '<span style="color:red">'. $formErrors['name'].'</span>';
+                    }
+                    ?>
                 </td>
             </tr>
             <tr>
                 <td>Email:</td>
                 <td>
-                    <input type="email" name="Email" id="email"placeholder="max.mustermann@gmx.de" size="45"  required>
+                    <input type="email" name="email" id="email"placeholder="max.mustermann@gmx.de" size="45"  value="<?=$email?>" required>
+                    <?php
+                    if(isset($formErrors['email'])){
+                        echo '<span style="color:red">'. $formErrors['email'].'</span>';
+                    }
+                    ?>
                 </td>
             </tr>
             <tr>
                 <td>Betreff:</td>
                 <td>
-                    <input name="Betreff" size="45" type="text" placeholder="Online Marketing" />
+                    <input name="betreff" size="45" type="text" placeholder="Online Marketing" value="<?=$subject?>" >
+                    <?php
+                    if(isset($formErrors['betreff'])){
+                        echo '<span style="color:red">'. $formErrors['betreff'].'</span>';
+                    }
+                    ?>
                 </td>
             </tr>
             <tr>
                 <td>Mitteilung:</td>
-                <td><textarea cols="30" rows="5" name="Mitteilung" placeholder="Bitte schreiben Sie ihre Mittelung hier herein."></textarea></td>
+                <td><textarea cols="30" rows="5" name="message" value="<?=$message?>" placeholder="Bitte schreiben Sie ihre Mittelung hier herein."></textarea></td>
+                <?php
+                if(isset($formErrors['message'])){
+                    echo '<span style="color:red">'. $formErrors['message'].'</span>';
+                }
+                ?>
+
             </tr>
             <tr>
                 <td></td>
                 <td>
-                    <input type="submit" value="Abschsicken" />
-                    <input type="reset" value="Zurücksetzen" />
+                    <input type="submit" name="Senden" value="Senden" />
+                    <input type="reset" name="Zurücksetzen" value="Zurücksetzen" />
                 </td>
             </tr>
             </tbody>

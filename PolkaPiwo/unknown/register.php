@@ -62,7 +62,6 @@
 <?php
 include('nav.in.php')
 ?>
-//test
 <form  onsubmit ="return pass()">
     <table border="0" cellspacing="0" cellpadding="2">
         <tbody>

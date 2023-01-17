@@ -57,7 +57,7 @@ if(isset($_POST["abschicken"])):
     $straße = $_POST['straße'];
     $hausnummer = $_POST['hausnummer'];
 
-    $search_email = $db->prepare("SELECT kunden_id FROM kunden where email = ?");
+    $search_email = $db->prepare("SELECT kunden_id FROM kunde where email = ?");
     $search_email->bind_param('s',$email);
     $search_email->execute();
     $search_result = $search_email->get_result();
@@ -310,8 +310,6 @@ include('nav.in.php')
         </tbody>
     </table>
 </form>
-
-
 
 <?php
 include('footer.in.php')
