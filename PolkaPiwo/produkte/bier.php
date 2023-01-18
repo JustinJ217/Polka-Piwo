@@ -106,7 +106,17 @@ if (isset($_POST["Delete"])) {
             echo "".$row['name'].": ".$row['rezension']." <br>Rating= ".$row['bewertung']." Sterne<br /> <br />" ;
         }
         ?>
-        <input type="submit" name="Delete" ><br>
+        <?php
+
+        $uid = $_SESSION['user'];
+        if($uid==8){
+        ?>
+            <div style="visibility:visible">
+                <input type="submit" name="Delete" ><br>
+            </div>
+        <?php
+        }
+        ?>
     </form>
 </div>
 
