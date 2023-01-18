@@ -22,7 +22,7 @@ include('../nav.in.php')
 
 <?php
 
-$db = new mysqli('localhost','root','','polkapiwo','3307');
+$db = new mysqli('localhost','root','','polkapiwo','3306');
 
 if($db->connect_error):
     echo $db->connect_error;
@@ -68,18 +68,29 @@ if (isset($_POST["Delete"])) {
         <h1><?php
             $aus = "SELECT * FROM artikel WHERE artikel_id = 1";
             foreach ($db->query($aus) as $row) {
-                echo "Preis: ".$row['preis']."€ ";
+                echo "".$row['name']."<br>";
             }
             ?></h1>
+        <h2><?php
+            $aus = "SELECT * FROM artikel WHERE artikel_id = 1";
+            foreach ($db->query($aus) as $row) {
+                echo "Preis: ".$row['preis']."€ ";
+            }
+            ?></h2>
     </div>
     <div style = "position:relative; left:800px; bottom:600px">
         <h3>Beschreibung:</h3>
-        <span class="subheading">Ein erfrischender Kasten Bier gefüllt mit 24 gekühlten Flaschen!</span> <br>
+        <?php
+        $aus = "SELECT * FROM artikel WHERE artikel_id = 1";
+        foreach ($db->query($aus) as $row) {
+            echo "".$row['beschreibung']."<br>";
+        }
+        ?>
         <span class="subheading">Alkoholgehalt: 9,6 % vol.</span> <br>
         <span class="subheading">Inhalt pro Flasche: 0,5l</span> <br>
         <span class="subheading">Zutaten: Wasser, Gerstenmalz, Hopfen, Hopfenextrakt</span> <br>
         Anzahl: <input type="number" id="quantity" name="testst" min="1" max="9"><br>
-        <input type="submit" name="warenkorb">In Warenkorb</input>
+        In Warenkorb: <input type="submit" name="warenkorb"></input>
     </div>
 </div>
 <div style = "position:relative; left:50px; bottom:400px;">
