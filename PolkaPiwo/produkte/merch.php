@@ -96,14 +96,12 @@ if(empty($_SESSION['user'])){
         ?>
         <span class="subheading">In allen Größen vorhanden!</span> <br>
         <span class="subheading">Fraben in Weiß, Schwarz oder Rot!</span> <br>
-        Anzahl: <input type="number" id="quantity" name="testst" min="1" max="9"><br>
-        In Warenkorb: <input type="submit" name="warenkorb"></input>
     </div>
 </div>
 <div style = "position:relative; left:50px; bottom:400px;">
     <h1>REZENSIONEN</h1>
     <form action="" method="post">
-        Rezension:<br> <input type="text" name="rezension" id="userID"><br>
+        Rezension: <input type="text" name="rezension" id="userID"><br>
         Bewertung: <input type="number" id="quantity" name="quantity" min="1" max="5"><br>
         <input type="submit" name="schickRez"><br>
 
