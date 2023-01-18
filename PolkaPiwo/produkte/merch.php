@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -20,21 +19,47 @@
 <?php
 include('../nav.in.php')
 ?>
+
 <?php
 
-$db = new mysqli('localhost','root','','polkapiwo','3307');
+$db = new mysqli('localhost','root','','polkapiwo','3306');
 
 if($db->connect_error):
     echo $db->connect_error;
 endif;
 
+$formErrors = [];
+
+if(isset($_POST["warenkorb"])) {
+
+    $testst = $_POST['testst'];
+    $uid = $_SESSION['user'];
+
+    $insert2 = $db->prepare("INSERT INTO warenkorb(anzahl, kunden_id) values (?,?)");
+    $insert2->bind_param('ii', $testst, $uid);
+    $insert2->execute();
+}
+
 if(isset($_POST["schickRez"])) {
-
     $rezension = $_POST['rezension'];
+    $uid = $_SESSION['user'];
+    $bewertung = $_POST['quantity'];
 
-    $insert = $db->prepare("INSERT INTO rezension (`artikel_id`, `kunden_id`, `rezension`) values (2,1,?)");
-    $insert->bind_param('s',$rezension);
+    if(empty($rezension)){
+        $formErrors['rezension'] = "Bitte einen Vornamen eingeben!";
+
+    }
+
+    $insert = $db->prepare("INSERT INTO rezension (`artikel_id`, `kunden_id`, `rezension`,`bewertung`) values (2,?,?,?)");
+    $insert->bind_param('isi', $uid, $rezension,$bewertung);
     $insert->execute();
+
+}
+
+
+if (isset($_POST["Delete"])) {
+    $del = $db->prepare("DELETE * FROM rezension");
+    $del->execute();
 }
 ?>
 <?php
@@ -48,30 +73,57 @@ if(empty($_SESSION['user'])){
 ?>
 <div style = "position:relative; left:100px; bottom:150px"><img src="../src/img/Merchbg.png" width="700" height="800">
     <div style = "position:relative; left:800px; bottom:600px">
-        <h1>Preis: 5€</h1>
+        <h1><?php
+            $aus = "SELECT * FROM artikel WHERE artikel_id = 2";
+            foreach ($db->query($aus) as $row) {
+                echo "".$row['name']."<br>";
+            }
+            ?></h1>
+        <h2><?php
+            $aus = "SELECT * FROM artikel WHERE artikel_id = 2";
+            foreach ($db->query($aus) as $row) {
+                echo "Preis: ".$row['preis']."€ ";
+            }
+            ?></h2>
     </div>
     <div style = "position:relative; left:800px; bottom:600px">
         <h3>Beschreibung:</h3>
-        <span class="subheading">Ein erfrischender Kasten Bier gefüllt mit 24 gekühlten Flaschen!</span> <br>
-        <span class="subheading">Alkoholgehalt: 9,6 % vol.</span> <br>
-        <span class="subheading">Inhalt pro Flasche: 0,5l</span> <br>
-        <span class="subheading">Zutaten: Wasser, Gerstenmalz, Hopfen, Hopfenextrakt</span> <br>
+        <?php
+        $aus = "SELECT * FROM artikel WHERE artikel_id = 2";
+        foreach ($db->query($aus) as $row) {
+            echo "".$row['beschreibung']."<br>";
+        }
+        ?>
+        <span class="subheading">In allen Größen vorhanden!</span> <br>
+        <span class="subheading">Fraben in Weiß, Schwarz oder Rot!</span> <br>
     </div>
 </div>
 <div style = "position:relative; left:50px; bottom:400px;">
     <h1>REZENSIONEN</h1>
     <form action="" method="post">
-        Rezension:<br> <input type="text" name="rezension" id="userID"><br>
+        Rezension: <input type="text" name="rezension" id="userID"><br>
+        Bewertung: <input type="number" id="quantity" name="quantity" min="1" max="5"><br>
         <input type="submit" name="schickRez"><br>
-    </form>
-    <?php
-    $aus = "SELECT * FROM rezension INNER JOIN kunden USING(kunden_id) WHERE artikel_id = 2";
-    foreach ($db->query($aus) as $row) {
-        echo "".$row['name'].": ".$row['rezension']."<br /> <br />" ;
-    }
-    ?>
-</div>
 
+        <?php
+        $aus = "SELECT * FROM rezension INNER JOIN kunden USING(kunden_id) WHERE artikel_id = 2";
+        foreach ($db->query($aus) as $row) {
+            echo "".$row['name'].": ".$row['rezension']." <br>Rating= ".$row['bewertung']." Sterne<br /> <br />" ;
+        }
+        ?>
+        <?php
+
+        $uid = $_SESSION['user'];
+        if($uid==8){
+            ?>
+            <div style="visibility:visible">
+                <input type="submit" name="Delete" ><br>
+            </div>
+            <?php
+        }
+        ?>
+    </form>
+</div>
 
 
 <?php
